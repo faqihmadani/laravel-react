@@ -15,9 +15,11 @@ class ClassroomController extends Controller
 
     public function store(Request $request)
     {
-        Classroom::create([
-            'name' => $request->name,
+        $validated = $request->validate([
+            'name' => 'required|string'
         ]);
+
+        Classroom::create($validated);
 
         return redirect()->route('dashboard');
     }
@@ -35,7 +37,11 @@ class ClassroomController extends Controller
     {
         $classroom = Classroom::findOrFail($id);
 
-        $classroom->update($request->all());
+        $validated = $request->validate([
+            'name' => 'required|string'
+        ]);
+
+        $classroom->update($validated);
 
         return redirect()->route('dashboard');
     }

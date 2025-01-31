@@ -20,15 +20,22 @@ class TeacherController extends Controller
 
     public function store(Request $request)
     {
-        $teacher = Teacher::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'gender' => $request->gender,
-            'subject' => $request->subject,
-            'classroom_id' => $request->classroom_id,
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'gender' => 'required',
+            'subject' => 'required',
+            'classrooms' => 'required'
         ]);
 
-        $teacher->classrooms()->sync($request->classrooms);
+        $teacher = Teacher::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'gender' => $validated['gender'],
+            'subject' => $validated['subject'],
+        ]);
+
+        $teacher->classrooms()->sync($validated['classrooms']);
 
         return redirect()->route('dashboard');
     }
@@ -48,9 +55,22 @@ class TeacherController extends Controller
     {
         $teacher = Teacher::findOrFail($id);
 
-        $teacher->update($request->all());
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'gender' => 'required',
+            'subject' => 'required',
+            'classrooms' => 'required',
+        ]);
 
-        $teacher->classrooms()->sync($request->classrooms);
+        $teacher->update([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'gender' => $validated['gender'],
+            'subject' => $validated['subject'],
+        ]);
+
+        $teacher->classrooms()->sync($validated['classrooms']);
 
         return redirect()->route('dashboard');
     }

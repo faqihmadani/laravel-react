@@ -1,6 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 export default function Dashboard({ students, teachers, classrooms }) {
     // Student
@@ -10,6 +11,8 @@ export default function Dashboard({ students, teachers, classrooms }) {
         router.delete(route("student.delete", idDeletedStudent))
         setIsOpenStudentModal(false)
         setIdDeletedStudent(null)
+
+        toast.success("Student deleted successfully");
     }
 
     const [studentSelectedClassroom, setStudentSelectedClassroom] = useState("All")
@@ -22,6 +25,8 @@ export default function Dashboard({ students, teachers, classrooms }) {
         router.delete(route("teacher.delete", idDeletedTeacher))
         setIsOpenTeacherModal(false)
         setIdDeletedTeacher(null)
+
+        toast.success("Teacher deleted successfully");
     }
 
     const [teacherSelectedClassroom, setTeacherSelectedClassroom] = useState("All")
@@ -34,6 +39,8 @@ export default function Dashboard({ students, teachers, classrooms }) {
         router.delete(route("classroom.delete", idDeletedClassroom))
         setIsOpenClassroomModal(false)
         setIdDeletedClassroom(null)
+
+        toast.success("Classroom deleted successfully")
     }
 
 

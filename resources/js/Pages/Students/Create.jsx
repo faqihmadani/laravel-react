@@ -1,6 +1,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Button } from "@headlessui/react";
 import { Head, Link, useForm } from "@inertiajs/react";
+import toast from "react-hot-toast";
 
 const Create = ({ classrooms }) => {
     const { data, setData, post, processing, errors } = useForm({
@@ -13,8 +14,19 @@ const Create = ({ classrooms }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('student.store'));
+        post(route('student.store'), {
+            onSuccess: () => {
+                setTimeout(() => {
+                    toast.success("Student added successfully");
+                }, 500);
+            },
+            onError: () => {
+                toast.error("Failed to add student. Please try again.");
+            },
+        });
     };
+
+    // toast("Hello World")
 
     const handleChange = (e) => {
         setData(e.target.name, e.target.value);
@@ -50,6 +62,7 @@ const Create = ({ classrooms }) => {
                             Name
                         </span>
                     </label>
+                    {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
 
                     <label
                         htmlFor="UserEmail"
@@ -70,6 +83,7 @@ const Create = ({ classrooms }) => {
                             Email
                         </span>
                     </label>
+                    {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
 
                     <fieldset className="grid grid-cols-2 gap-4">
                         <legend className="sr-only">Gender</legend>
@@ -116,9 +130,11 @@ const Create = ({ classrooms }) => {
                             </label>
                         </div>
                     </fieldset>
+                    {errors.gender && <p className="text-red-500 text-sm">{errors.gender}</p>}
 
                     <label htmlFor="HeadlineAct" className="block text-sm font-medium text-gray-900"> Birthdate </label>
                     <input onChange={handleChange} name="birthdate" className="border-gray-100 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200" type="date" id="" />
+                    {errors.birthdate && <p className="text-red-500 text-sm">{errors.birthdate}</p>}
 
                     <div>
                         <label htmlFor="HeadlineAct" className="block text-sm font-medium text-gray-900"> Classroom </label>
@@ -134,6 +150,7 @@ const Create = ({ classrooms }) => {
                             ))}
 
                         </select>
+                        {errors.classroom_id && <p className="text-red-500 text-sm">{errors.classroom_id}</p>}
                     </div>
                     <Button onClick={handleSubmit}
                         className="inline-block rounded text-center border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"

@@ -1,6 +1,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Button } from "@headlessui/react";
 import { Head, Link, useForm } from "@inertiajs/react";
+import toast from "react-hot-toast";
 import Select from 'react-select';
 
 const Edit = ({ teacher, classrooms }) => {
@@ -14,7 +15,16 @@ const Edit = ({ teacher, classrooms }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        put(route('teacher.update', teacher.id));
+        put(route('teacher.update', teacher.id), {
+            onSuccess: () => {
+                setTimeout(() => {
+                    toast.success("Teacher updated successfully");
+                }, 500);
+            },
+            onError: () => {
+                toast.error("Failed to update Teacher. Please try again.");
+            },
+        });
     };
 
     const handleChange = (e) => {
@@ -52,6 +62,7 @@ const Edit = ({ teacher, classrooms }) => {
                             Name
                         </span>
                     </label>
+                    {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
 
                     <label
                         htmlFor="UserEmail"
@@ -72,6 +83,7 @@ const Edit = ({ teacher, classrooms }) => {
                             Email
                         </span>
                     </label>
+                    {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
 
                     <fieldset className="grid grid-cols-2 gap-4">
                         <legend className="sr-only">Gender</legend>
@@ -118,6 +130,7 @@ const Edit = ({ teacher, classrooms }) => {
                             </label>
                         </div>
                     </fieldset>
+                    {errors.gender && <p className="text-red-500 text-sm">{errors.gender}</p>}
 
                     <label
                         className="relative block overflow-hidden rounded-md border bg-white border-gray-200 px-3 pt-3 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
@@ -138,6 +151,7 @@ const Edit = ({ teacher, classrooms }) => {
                             Subject
                         </span>
                     </label>
+                    {errors.subject && <p className="text-red-500 text-sm">{errors.subject}</p>}
 
                     <div>
                         <label htmlFor="HeadlineAct" className="block text-sm font-medium text-gray-900"> Classroom </label>
@@ -153,6 +167,7 @@ const Edit = ({ teacher, classrooms }) => {
                             onChange={(selected) => setData("classrooms", selected.map((s) => s.value))}
                         />
                     </div>
+                    {errors.classrooms && <p className="text-red-500 text-sm">{errors.classrooms}</p>}
 
                     <Button onClick={handleSubmit}
                         className="inline-block rounded text-center border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"

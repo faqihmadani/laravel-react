@@ -1,6 +1,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Button } from "@headlessui/react";
 import { Head, Link, useForm } from "@inertiajs/react";
+import toast from "react-hot-toast";
 
 const Create = () => {
     const { data, setData, post, processing, errors } = useForm({
@@ -9,7 +10,16 @@ const Create = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('classroom.store'));
+        post(route('classroom.store'), {
+            onSuccess: () => {
+                setTimeout(() => {
+                    toast.success("Classroom added successfully");
+                }, 500);
+            },
+            onError: () => {
+                toast.error("Failed to add Classroom. Please try again.");
+            },
+        });
     };
 
     const handleChange = (e) => {
@@ -46,6 +56,7 @@ const Create = () => {
                             Name
                         </span>
                     </label>
+                    {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
 
 
                     <Button onClick={handleSubmit}

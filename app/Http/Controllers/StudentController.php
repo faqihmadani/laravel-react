@@ -20,13 +20,15 @@ class StudentController extends Controller
 
     public function store(Request $request)
     {
-        Student::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'gender' => $request->gender,
-            'birthdate' => $request->birthdate,
-            'classroom_id' => $request->classroom_id,
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'gender' => 'required',
+            'birthdate' => 'required',
+            'classroom_id' => 'required',
         ]);
+
+        Student::create($validated);
 
         return redirect()->route('dashboard');
     }
@@ -44,9 +46,17 @@ class StudentController extends Controller
 
     public function update(Request $request, $id)
     {
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'gender' => 'required',
+            'birthdate' => 'required',
+            'classroom_id' => 'required',
+        ]);
+
         $student = Student::findOrFail($id);
 
-        $student->update($request->all());
+        $student->update($validated);
 
         return redirect()->route('dashboard');
     }

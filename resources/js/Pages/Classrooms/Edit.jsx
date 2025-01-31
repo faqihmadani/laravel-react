@@ -1,6 +1,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Button } from "@headlessui/react";
 import { Head, Link, useForm } from "@inertiajs/react";
+import toast from "react-hot-toast";
 
 const Edit = ({ classroom }) => {
     const { data, setData, put, processing, errors } = useForm({
@@ -9,7 +10,16 @@ const Edit = ({ classroom }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        put(route('classroom.update', classroom.id));
+        put(route('classroom.update', classroom.id), {
+            onSuccess: () => {
+                setTimeout(() => {
+                    toast.success("Classroom updated successfully");
+                }, 500);
+            },
+            onError: () => {
+                toast.error("Failed to update Classroom. Please try again.");
+            },
+        });
     };
 
     const handleChange = (e) => {
@@ -47,6 +57,7 @@ const Edit = ({ classroom }) => {
                             Name
                         </span>
                     </label>
+                    {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
 
 
                     <Button onClick={handleSubmit}
