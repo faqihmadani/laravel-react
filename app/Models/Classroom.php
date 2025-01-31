@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Classroom extends Model
 {
     //
+    protected $fillable = [
+        "name"
+    ];
 
     public function students(): HasMany
     {

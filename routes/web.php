@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TeacherController;
 use App\Models\Classroom;
 use App\Models\Student;
 use App\Models\Teacher;
@@ -32,6 +34,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/student/edit/{id}', [StudentController::class, 'edit'])->name('student.edit');
     Route::put('/student/update/{id}', [StudentController::class, 'update'])->name('student.update');
     Route::delete('/student/{id}', [StudentController::class, 'delete'])->name('student.delete');
+
+
+    Route::get('/teacher/create', [TeacherController::class, 'create'])->name('teacher.create');
+    Route::post('/teacher/create', [TeacherController::class, 'store'])->name('teacher.store');
+    Route::get('/teacher/edit/{id}', [TeacherController::class, 'edit'])->name('teacher.edit');
+    Route::put('/teacher/update/{id}', [TeacherController::class, 'update'])->name('teacher.update');
+    Route::delete('/teacher/{id}', [TeacherController::class, 'delete'])->name('teacher.delete');
+
+
+    Route::get('/classroom/create', [ClassroomController::class, 'create'])->name('classroom.create');
+    Route::post('/classroom/create', [ClassroomController::class, 'store'])->name('classroom.store');
 });
 
 Route::middleware('auth')->group(function () {
