@@ -12,7 +12,7 @@ Make sure you have the following installed:
 
 ### 1. Clone the Repository
 ```sh
-git clone https://github.com/faqihmadani/laravel-react.git
+git clone https://github.com/faqihmadani/laravel-react.git your-project
 cd your-project
 ```
 
