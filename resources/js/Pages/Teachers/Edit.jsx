@@ -3,7 +3,7 @@ import { Button } from "@headlessui/react";
 import { Head, Link, useForm } from "@inertiajs/react";
 import Select from 'react-select';
 
-const Create = ({ teacher, classrooms }) => {
+const Edit = ({ teacher, classrooms }) => {
     const { data, setData, put, processing, errors } = useForm({
         name: teacher.name,
         email: teacher.email,
@@ -166,4 +166,4 @@ const Create = ({ teacher, classrooms }) => {
     );
 }
 
-export default Create;
+export default Edit;

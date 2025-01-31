@@ -27,7 +27,14 @@ export default function Dashboard({ students, teachers, classrooms }) {
     const [teacherSelectedClassroom, setTeacherSelectedClassroom] = useState("All")
     const filteredTeachers = teacherSelectedClassroom === "All" ? teachers : teachers.filter((teacher) => teacher.classrooms.some((classroom) => classroom.name === teacherSelectedClassroom));
 
-    // console.log(filteredTeachers);
+    //Classroom
+    const [isOpenClassroomModal, setIsOpenClassroomModal] = useState(false)
+    const [idDeletedClassroom, setIdDeletedClassroom] = useState(null)
+    const handleClassroomDelete = () => {
+        router.delete(route("classroom.delete", idDeletedClassroom))
+        setIsOpenClassroomModal(false)
+        setIdDeletedClassroom(null)
+    }
 
 
 
@@ -70,6 +77,20 @@ export default function Dashboard({ students, teachers, classrooms }) {
                         <button onClick={() => {
                             setIsOpenTeacherModal(false)
                             setIdDeletedTeacher(null)
+                        }} className="px-4 py-2 bg-white border-2 border-gray-500 text-slate-800 rounded">Cancel</button>
+                    </div>
+                </div>
+            </div>
+
+            <div className={isOpenClassroomModal ? "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20" : "fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-20 hidden"}>
+                <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+                    <h2 className="text-xl font-bold">Warning</h2>
+                    <p className="mt-2 text-gray-600">Are you sure to delete this data?</p>
+                    <div className="mt-4 flex justify-between">
+                        <button onClick={handleClassroomDelete} className="px-4 py-2 bg-red-500 text-white rounded">Delete</button>
+                        <button onClick={() => {
+                            setIsOpenClassroomModal(false)
+                            setIdDeletedClassroom(null)
                         }} className="px-4 py-2 bg-white border-2 border-gray-500 text-slate-800 rounded">Cancel</button>
                     </div>
                 </div>
@@ -247,15 +268,15 @@ export default function Dashboard({ students, teachers, classrooms }) {
                                         <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                                             <Link
                                                 className="inline-block rounded border border-yellow-600 px-5 py-1 text-sm font-medium text-yellow-600 hover:bg-yellow-600 hover:text-white focus:outline-none focus:ring active:bg-yellow-500"
-                                                href={route('student.edit', classroom.id)}
+                                                href={route('classroom.edit', classroom.id)}
                                             >
                                                 Edit
                                             </Link>
                                             <button
                                                 className="inline-block ml-3 rounded border border-red-600 px-5 py-1 text-sm font-medium text-red-600 hover:bg-red-600 hover:text-white focus:outline-none focus:ring active:bg-red-500"
                                                 onClick={() => {
-                                                    setIsOpenTeacherModal(true)
-                                                    setIdDeletedTeacher(classroom.id)
+                                                    setIsOpenClassroomModal(true)
+                                                    setIdDeletedClassroom(classroom.id)
                                                 }}
                                             >
                                                 Delete

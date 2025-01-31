@@ -21,4 +21,30 @@ class ClassroomController extends Controller
 
         return redirect()->route('dashboard');
     }
+
+    public function edit($id)
+    {
+        $classroom = Classroom::findOrFail($id);
+
+        return Inertia::render('Classrooms/Edit', [
+            'classroom' => $classroom,
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $classroom = Classroom::findOrFail($id);
+
+        $classroom->update($request->all());
+
+        return redirect()->route('dashboard');
+    }
+
+    public function delete($id)
+    {
+        $classroom = Classroom::findOrFail($id);
+        $classroom->delete();
+
+        return redirect()->route('dashboard')->with('success', 'Classroom deleted successfully!');
+    }
 }

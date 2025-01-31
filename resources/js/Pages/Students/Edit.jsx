@@ -2,7 +2,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Button } from "@headlessui/react";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-const Create = ({ student, classrooms }) => {
+const Edit = ({ student, classrooms }) => {
     const { data, setData, put, processing, errors } = useForm({
         name: student.name,
         email: student.email,
@@ -149,4 +149,4 @@ const Create = ({ student, classrooms }) => {
     );
 }
 
-export default Create;
+export default Edit;
