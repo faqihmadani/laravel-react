@@ -37,17 +37,22 @@ DB_USERNAME=your_username
 DB_PASSWORD=your_password
 ```
 
-### 4. Run Migrations & Seeding
+### 4. Generate Application Key
+```sh
+php artisan key:generate
+```
+
+### 5. Run Migrations & Seeding
 ```sh
 php artisan migrate:fresh --seed
 ```
 
-### 5. Compile Frontend Assets
+### 6. Compile Frontend Assets
 ```sh
 npm run dev
 ```
 
-### 6. Start the Development Server
+### 7. Start the Development Server
 ```sh
 php artisan serve
 ```
