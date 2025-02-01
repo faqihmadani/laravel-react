@@ -21,14 +21,19 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard', [
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/all-data/view', function () {
+    return Inertia::render('AllData/View', [
         'students' => Student::with('classroom')->get(),
         'teachers' => Teacher::with('classrooms')->get(),
         'classrooms' => Classroom::all(['id', 'name']),
     ]);
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified'])->name('alldata.view');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/student/view', [StudentController::class, 'view'])->name('student.view');
     Route::get('/student/create', [StudentController::class, 'create'])->name('student.create');
     Route::post('/student/create', [StudentController::class, 'store'])->name('student.store');
     Route::get('/student/edit/{id}', [StudentController::class, 'edit'])->name('student.edit');
@@ -36,6 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/student/{id}', [StudentController::class, 'delete'])->name('student.delete');
 
 
+    Route::get('/teacher/view', [TeacherController::class, 'view'])->name('teacher.view');
     Route::get('/teacher/create', [TeacherController::class, 'create'])->name('teacher.create');
     Route::post('/teacher/create', [TeacherController::class, 'store'])->name('teacher.store');
     Route::get('/teacher/edit/{id}', [TeacherController::class, 'edit'])->name('teacher.edit');

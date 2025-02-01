@@ -4,6 +4,7 @@ import { Head, Link, useForm } from "@inertiajs/react";
 import toast from "react-hot-toast";
 
 const Create = ({ classrooms }) => {
+
     const { data, setData, post, processing, errors } = useForm({
         name: '',
         email: '',
@@ -11,6 +12,8 @@ const Create = ({ classrooms }) => {
         birthdate: '',
         classroom_id: '1',
     });
+
+
 
     const handleSubmit = (e) => {
         e.preventDefault();

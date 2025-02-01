@@ -21,7 +21,7 @@ class ClassroomController extends Controller
 
         Classroom::create($validated);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('alldata.view');
     }
 
     public function edit($id)
@@ -43,7 +43,7 @@ class ClassroomController extends Controller
 
         $classroom->update($validated);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('alldata.view');
     }
 
     public function delete($id)
@@ -51,6 +51,6 @@ class ClassroomController extends Controller
         $classroom = Classroom::findOrFail($id);
         $classroom->delete();
 
-        return redirect()->route('dashboard')->with('success', 'Classroom deleted successfully!');
+        return back()->with('success', 'Classroom deleted successfully!');
     }
 }

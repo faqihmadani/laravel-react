@@ -9,6 +9,14 @@ use Inertia\Inertia;
 
 class TeacherController extends Controller
 {
+    public function view()
+    {
+        return Inertia::render('Teachers/View', [
+            'teachers' => Teacher::with('classrooms')->get(),
+            'classrooms' => Classroom::all(['id', 'name']),
+        ]);
+    }
+
     public function create()
     {
         $classrooms = Classroom::all(['id', 'name']);
@@ -37,7 +45,7 @@ class TeacherController extends Controller
 
         $teacher->classrooms()->sync($validated['classrooms']);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('teacher.view');
     }
 
     public function edit($id)
@@ -72,7 +80,7 @@ class TeacherController extends Controller
 
         $teacher->classrooms()->sync($validated['classrooms']);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('teacher.view');
     }
 
     public function delete($id)
@@ -80,6 +88,6 @@ class TeacherController extends Controller
         $teacher = Teacher::findOrFail($id);
         $teacher->delete();
 
-        return redirect()->route('dashboard')->with('success', 'Teacher deleted successfully!');
+        return back()->with('success', 'Teacher deleted successfully!');
     }
 }

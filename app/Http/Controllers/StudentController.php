@@ -5,16 +5,25 @@ namespace App\Http\Controllers;
 use App\Models\Classroom;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class StudentController extends Controller
 {
+    public function view()
+    {
+        return Inertia::render('Students/View', [
+            'students' => Student::with('classroom')->get(),
+            'classrooms' => Classroom::all(['id', 'name']),
+        ]);
+    }
+
     public function create()
     {
         $classrooms = Classroom::all(['id', 'name']);
 
         return Inertia::render('Students/Create', [
-            'classrooms' => $classrooms
+            'classrooms' => $classrooms,
         ]);
     }
 
@@ -30,7 +39,8 @@ class StudentController extends Controller
 
         Student::create($validated);
 
-        return redirect()->route('dashboard');
+
+        return redirect()->route('student.view');
     }
 
     public function edit($id)
@@ -58,7 +68,7 @@ class StudentController extends Controller
 
         $student->update($validated);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('student.view');
     }
 
     public function delete($id)
@@ -66,6 +76,6 @@ class StudentController extends Controller
         $student = Student::findOrFail($id);
         $student->delete();
 
-        return redirect()->route('dashboard')->with('success', 'Student deleted successfully!');
+        return back()->with('success', 'Student deleted successfully!');
     }
 }

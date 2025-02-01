@@ -32,6 +32,24 @@ export default function AuthenticatedLayout({ header, children }) {
                                 >
                                     Dashboard
                                 </NavLink>
+                                <NavLink
+                                    href={route('student.view')}
+                                    active={route().current('student.view')}
+                                >
+                                    Students
+                                </NavLink>
+                                <NavLink
+                                    href={route('teacher.view')}
+                                    active={route().current('teacher.view')}
+                                >
+                                    Teachers
+                                </NavLink>
+                                <NavLink
+                                    href={route('alldata.view')}
+                                    active={route().current('alldata.view')}
+                                >
+                                    All Data
+                                </NavLink>
                             </div>
                         </div>
 
